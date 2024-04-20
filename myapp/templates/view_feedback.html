@@ -1,0 +1,21 @@
+{% extends "customerheader.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Your Feedback</h1>
+    <div class="row">
+        {% for feedback_dict in feedback_data %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Display product name -->
+                    <h5 class="card-title">{{ feedback_dict.product.name }}</h5>
+                    <!-- Display feedback -->
+                    <p class="card-text">Feedback: {{ feedback_dict.feedback.feedback }}</p>
+                    <a href="{% url 'edit_feedback' feedback_id=feedback_dict.feedback.id %}" class="btn btn-primary">Edit</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

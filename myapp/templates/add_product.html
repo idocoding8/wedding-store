@@ -1,0 +1,37 @@
+{% extends "shopheader.html" %}
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">Product Registration</div>
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label text-md-right">{{ field.label }}</label>
+              <div class="col-md-8">
+                {{ field }}
+                {% if field.errors %}
+                <ul class="errorlist">
+                  {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+            <div class="form-group row">
+              <div class="col-md-8 offset-md-2">
+                <button type="submit" class="btn btn-primary">Register</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

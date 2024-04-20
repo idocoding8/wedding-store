@@ -1,0 +1,28 @@
+{% extends "customerheader.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Your Complaints</h1>
+    <div class="row">
+        {% for complaint_dict in complaint_data %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Display product name -->
+                    <h5 class="card-title">{{ complaint_dict.product.name }}</h5>
+                    <!-- Display complaint -->
+                    <p class="card-text">Complaint: {{ complaint_dict.complaint.complaint }}</p>
+                    <!-- Display reply -->
+                    {% if complaint_dict.complaint.reply %}
+                    <p class="card-text">Reply: {{ complaint_dict.complaint.adreply }}</p>
+                    {% else %}
+                    <p class="card-text">No replies yet</p>
+                    {% endif %}
+                    <!-- Link to edit complaint -->
+                    <a href="{% url 'edit_complaint' complaint_id=complaint_dict.complaint.id %}" class="btn btn-primary">Edit</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

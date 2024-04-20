@@ -1,0 +1,22 @@
+{% extends "customerheader.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Return Requests</h1>
+    <div class="row">
+        {% for return_dict in return_data %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Display product name -->
+                    <h5 class="card-title">{{ return_dict.product.name }}</h5>
+                    <!-- Display return -->
+                    <p class="card-text">Reason:</p>
+                    <p class="card-text">{{ return_dict.return_det.reason }}</p>
+                    {% comment %} <a href="{% url 'edit_return' return_id=return_dict.return.id %}" class="btn btn-primary">Edit</a> {% endcomment %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

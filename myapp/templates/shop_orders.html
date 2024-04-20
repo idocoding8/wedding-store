@@ -1,0 +1,29 @@
+{% extends "shopheader.html" %} 
+{% block content %}
+
+<div class="container">
+    <h1 class="my-4">Shop Orders</h1>
+    <div class="row">
+        {% for order in orders %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ order.menuid.name }}</h5>
+                    <p class="card-text">Quantity: {{ order.quantity }}</p>
+                    <p class="card-text">Total Amount: {{ order.totalamount }}</p>
+                    <p class="card-text">Customer Name: {{ order.customer.customername }}</p>
+                    <p class="card-text">Address: {{ order.customer.address }}</p>
+                    <p class="card-text">Contact: {{ order.customer.contact }}</p>
+                    <p class="card-text">Email: {{ order.customer.email }}</p>
+                    <a href="{% url 'delivery_boys' order_id=order.id %}" class="btn btn-primary mt-3">Assign</a>
+                    <a href="{% url 'assigned_delivery_boys' order_id=order.id %}" class="btn btn-primary mt-3">Assigned Delivery Team</a>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+</div>
+
+{% endblock %}

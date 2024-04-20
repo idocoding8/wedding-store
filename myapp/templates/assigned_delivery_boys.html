@@ -1,0 +1,18 @@
+{% extends "shopheader.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Delivery Boys</h1>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ delivery_boys.delname }}</h5>
+                    <p class="card-text">Address: {{ delivery_boys.address }}</p>
+                    <p class="card-text">Contact: {{ delivery_boys.contactno }}</p>
+                    <p class="card-text">Email: {{ delivery_boys.email }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

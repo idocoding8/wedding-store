@@ -1,0 +1,98 @@
+{% extends "customerheader.html" %} 
+{% block content %}
+<br />
+<br />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Results</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+        max-width: 300px;
+      }
+      .card:hover {
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-4px);
+      }
+      .card-img {
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+      .card-body {
+        padding: 20px;
+      }
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .card-price {
+        font-size: 1.1rem;
+        color: #007bff;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .card-text {
+        font-size: 1rem;
+        color: #555;
+      }
+      .yet-to-be-delivered {
+        font-size: 0.9rem;
+        color: #ff6600; /* Orange color */
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body class="font-sans bg-gray-100">
+    <div class="container mx-auto my-8 p-8 bg-white rounded shadow-md w-2/3">
+      <h1 class="text-2xl font-bold mb-4">Your Paid Products</h1>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for paid_product in paid_product_details %}
+        <div class="card">
+          <img
+            src="/media/{{ paid_product.product.image }}"
+            alt="{{ paid_product.product.name }}"
+            class="card-img"
+          />
+          <div class="card-body">
+            <h2 class="card-title">{{ paid_product.product.name }}</h2>
+            <p class="card-price">{{ paid_product.product.rentamt }}</p>
+            <p class="card-text">{{ paid_product.product.amount }}</p>
+            <p class="card-text">Quantity: {{ paid_product.quantity }}</p>
+            <p class="card-text">Total Amount: {{ paid_product.total_amount }}</p>
+            {% if paid_product.delstatus == 0 %}
+            <p class="card-text yet-to-be-delivered">Yet to be delivered</p>
+            {% elif paid_product.delstatus == 1 %}
+            <div class="mt-4">
+              <a href="{% url 'submit_feedback'  product_id=paid_product.product.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block mb-2">
+                Feedback
+              </a>
+              <a href="{% url 'enter_complaint'  product_id=paid_product.product.id %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full inline-block mb-2">
+                Complaints
+              </a>
+              <a href="{% url 'product_return'  cart_id=paid_product.cart.id %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full inline-block mb-2">
+                Return
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "deliveryheader.html" %}
+{% block content %}
+<div class="container">
+    {% if orders_data %}
+    <h1 class="my-4">Delivery Orders</h1>
+    <div class="row">
+        {% for order_data in orders_data %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ order_data.product.name }}</h5>
+                    <p class="card-text">Customer Name: {{ order_data.customer.customername }}</p>
+                    <p class="card-text">Address: {{ order_data.customer.address }}</p>
+                    <p class="card-text">Contact: {{ order_data.customer.contact }}</p>
+                    <p class="card-text">Email: {{ order_data.customer.email }}</p>
+                    {% if order_data.cart.delstatus != 1 %}
+                        <a href="{% url 'mark_delivered' cart_id=order_data.cart.id %}" class="btn btn-primary">Delivered</a>
+                    {% else %}
+                        <p>Delivery done report sent</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No orders assigned to you.</p>
+    {% endif %}
+</div>
+{% endblock %}

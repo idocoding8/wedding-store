@@ -1,0 +1,119 @@
+{% extends "customerheader.html" %} {% block content %}
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<br />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Results</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+        max-width: 300px;
+      }
+      .card:hover {
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-4px);
+      }
+      .card-img {
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+      .card-body {
+        padding: 20px;
+      }
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .card-price {
+        font-size: 1.1rem;
+        color: #007bff;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .card-text {
+        font-size: 1rem;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body class="font-sans bg-gray-100">
+    {% if query %} {% endif %}
+    <div class="container mx-auto my-8 p-8 bg-white rounded shadow-md w-2/3">
+      {% include 'search_form.html' %}
+      <br />
+      <h1 class="text-2xl font-bold mb-4">Search results for: "{{ query }}"</h1>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      >
+        {% if results %} {% for product in results %}
+        <div class="card">
+          <img
+            src="/media/{{ product.image }}"
+            alt="{{ product.name }}"
+            class="card-img"
+          />
+          <div class="card-body">
+            <h2 class="card-title">{{ product.name }}</h2>
+            <p class="card-price">{{ product.rentamt }}</p>
+            <p class="card-text">{{ product.amount }}</p>
+            <p class="card-text">
+              {% if product.selling == "sell" %}
+              <a
+              href="{% url 'payment_setup' product_id=product.id %}"
+              class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+              >Buy</a
+            >
+              {% elif product.selling == "rent" %}
+              <a
+                href="{% url 'rent_detail' id=product.id %}"
+                class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                >Rent</a
+              >
+              {% elif product.selling == "both" %}
+              <a
+              href="{% url 'rent_detail' id=product.id %}"
+              class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+              >Rent</a
+            >
+            <a
+            href="{% url 'payment_setup' product_id=product.id %}"
+            class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+            >Buy</a
+          >
+              {% endif %}
+              <br><br>
+              <form action="{% url 'add_to_cart' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                <button type="submit" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline">Add to Cart</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <p>No results found.</p>
+        {% endif %}
+      </div>
+    </div>
+    
+  </body>
+</html>
+{% endblock %}

@@ -1,0 +1,50 @@
+from django.urls import path
+from . import views
+from django.conf.urls.static import static
+from django.conf import settings
+urlpatterns = [
+    path('', views.index, name='index'),
+    
+   
+    path('shop_login', views.shop_login, name='shop_login'),
+    path('customer_login', views.customer_login, name='customer_login'),
+    path('delivery_boy_login', views.delivery_boy_login, name='delivery_boy_login'),
+    path('customerhome/', views.customerhome, name='customerhome'),
+    path('shophome', views.shophome, name='shophome'),
+    path('deliveryhome/', views.deliveryhome, name='deliveryhome'),
+    path('shop/', views.register_shop, name='register_shop'),
+    path('customer/', views.register_customer, name='register_customer'),
+    path('deliveryboy/', views.register_delivery_boy, name='register_delivery_boy'),
+    path('edit_shop/', views.edit_shop, name='edit_shop'),
+    path('edit_customer/', views.edit_customer, name='edit_customer'),
+    path('add_product/', views.add_product, name='add_product'),
+    path('view_products/', views.view_products, name='view_products'),
+    path('delete-product/<int:product_id>/', views.delete_product, name='delete_product'),
+    path('edit_product/<int:product_id>/', views.edit_product, name='edit_product'),
+    path('search_product', views.search_product, name='search_product'),
+    path('rent-detail/<int:id>/', views.rent_detail, name='rent_detail'),
+    path('payment/<int:product_id>/', views.payment_form, name='payment_setup'),
+    path('paid_products', views.paid_products, name='paid_products'),
+    path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
+    path('display_cart/', views.display_cart, name='display_cart'),
+    path('remove_from_cart/<int:item_id>', views.remove_from_cart, name='remove_from_cart'),
+    path('logout', views.logout, name='logout'),
+    path('shop_orders', views.shop_orders, name='shop_orders'),
+    path('deliveryboys/<int:order_id>', views.delivery_boys, name='delivery_boys'),
+    # path('assign/', views.assign_delivery_boy, name='assign_delivery_boy'),
+    path('assign_delivery_boy/<int:order_id>/<int:delivery_boy_id>/', views.assign_delivery_boy, name='assign_delivery_boy'),
+    path('assigned_delivery_boys/<int:order_id>', views.assigned_delivery_boys, name='assigned_delivery_boys'),
+    path('delivery_teams', views.delivery_teams, name='delivery_teams'),
+    path('edit_delivery', views.edit_delivery, name='edit_delivery'),
+    path('delivery_orders', views.delivery_orders, name='delivery_orders'),
+    path('mark_delivered/<int:cart_id>/', views.mark_delivered, name='mark_delivered'),
+    path('submit_feedback/<int:product_id>/', views.submit_feedback, name='submit_feedback'),
+    path('edit_feedback/<int:feedback_id>/', views.edit_feedback, name='edit_feedback'),
+    path('view_feedback/', views.view_feedback, name='view_feedback'),
+    path('enter_complaint/<int:product_id>/', views.enter_complaint, name='enter_complaint'),
+    path('edit_complaint/<int:complaint_id>/', views.edit_complaint, name='edit_complaint'),
+    path('view_complaints/', views.view_complaints, name='view_complaints'),
+    path('product_return/<int:cart_id>/', views.product_return, name='product_return'),
+    path('return_view', views.return_view, name='return_view'),
+    # Add more URL patterns as needed
+]

@@ -1,0 +1,21 @@
+{% extends "shopheader.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Delivery Boys</h1>
+    <div class="row">
+        {% for delivery_boy in delivery_boys %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ delivery_boy.delname }}</h5>
+                    <p class="card-text">Address: {{ delivery_boy.address }}</p>
+                    <p class="card-text">Contact: {{ delivery_boy.contactno }}</p>
+                    <p class="card-text">Email: {{ delivery_boy.email }}</p>
+                    <a href="{% url 'assign_delivery_boy' order_id=order.id delivery_boy_id=delivery_boy.id %}" class="btn btn-primary mt-3">Assign</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
