@@ -123,3 +123,7 @@ class RentDtl(models.Model):
     loginid = models.IntegerField()
     amount = models.IntegerField()
 
+class Admin(models.Model):
+    email=models.EmailField(max_length=32)
+    password=models.CharField(max_length=32)
+    

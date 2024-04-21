@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import ShopRegistrationForm,CustomerRegistrationForm,DeliveryBoyRegistrationForm, ShopLoginForm , CustomerLoginForm ,DeliveryBoyLoginForm,ShopEditForm,ProductForm, RentDtlForm
-from .forms import CustomerEditForm,DeliveryEditForm,FeedbackForm
-from .models import Shop, DeliveryBoy , Customer ,Product,Feedback
+from .forms import CustomerEditForm,DeliveryEditForm,FeedbackForm,AdminLoginForm
+from .models import Shop, DeliveryBoy , Customer ,Product,Feedback,Admin
 from django.http import HttpResponse
 from django.db.models import Q
 from django.http import JsonResponse
@@ -114,7 +114,23 @@ def shophome(request):
 # # Delete all records from the DeliveryBoy model
 # models.
 # DeliveryBoy.objects.all().delete()
-
+def admin_login(request):
+    if request.method == 'POST':
+        form = AdminLoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            hashed_password = hashlib.md5(password.encode()).hexdigest()
+            try:
+                admin = Admin.objects.get(email=email, password=hashed_password)
+                request.session['admin'] = admin.id  # Store admin id in session
+                
+                return redirect('admin_home')  # Redirect to admin home page
+            except Admin.DoesNotExist:
+                form.add_error(None, 'Invalid email or password')
+    else:
+        form = AdminLoginForm()
+    return render(request, 'admin_login.html', {'form': form})
 
 
 
@@ -638,3 +654,69 @@ def return_view(request):
         return_data.append(return_dict)
     
     return render(request, 'return_requests.html', {'return_data': return_data})
+
+def admin_home(request):
+    
+    return render(request , 'adminhome.html' )
+
+def shop_list(request):
+    shops = Shop.objects.all()
+    return render(request, 'shop_detail.html', {'shops': shops})
+
+def approve_shop(request, shop_id):
+    shop = Shop.objects.get(id=shop_id)
+    shop.approvalstatus = 1
+    shop.save()
+    return redirect('shop_list')
+
+def reject_shop(request, shop_id):
+    shop = Shop.objects.get(id=shop_id)
+    shop.approvalstatus = 2
+    shop.save()
+    return redirect('shop_list')
+
+def customer_list(request):
+    customers = Customer.objects.all()
+    return render(request, 'customer_list.html', {'customers': customers})
+
+def delivery_boy_list(request):
+    delivery_boys = DeliveryBoy.objects.all()
+    return render(request, 'delivery_boy_list.html', {'delivery_boys': delivery_boys})
+
+def feedback_list(request):
+    feedbacks = Feedback.objects.all()
+    feedback_data = []
+
+    for feedback in feedbacks:
+        product = Product.objects.get(pk=feedback.productid)
+        customer = Customer.objects.get(id=feedback.loginid)
+        shop = Shop.objects.get(pk=feedback.loginid)
+
+        feedback_data.append({
+            'feedback': feedback.feedback,
+            'product_name': product.name,
+            'shop_name': shop.name,
+            'customer_name': customer.customername,
+            'date': feedback.currentdate,
+        })
+
+    return render(request, 'feedback_list.html', {'feedback_data': feedback_data})
+
+def complaint_list(request):
+    complaints = Complaints.objects.all()
+    complaint_data = []
+
+    for complaint in complaints:
+        product = Product.objects.get(pk=complaint.productid)
+        customer = Customer.objects.get(pk=complaint.loginid)
+
+        complaint_data.append({
+            'complaint': complaint.complaint,
+            'product_name': product.name,
+            'customer_name': customer.customername,
+            'date': complaint.currentdate,
+            'ad_reply': complaint.adreply,
+        })
+
+    return render(request, 'complaint_list.html', {'complaint_data': complaint_data})
+

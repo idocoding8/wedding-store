@@ -4,11 +4,11 @@ from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = [
     path('', views.index, name='index'),
-    
-   
+    path('admin_login/', views.admin_login, name='admin_login'),
     path('shop_login', views.shop_login, name='shop_login'),
     path('customer_login', views.customer_login, name='customer_login'),
     path('delivery_boy_login', views.delivery_boy_login, name='delivery_boy_login'),
+    path('admin_home/', views.admin_home, name='admin_home'),
     path('customerhome/', views.customerhome, name='customerhome'),
     path('shophome', views.shophome, name='shophome'),
     path('deliveryhome/', views.deliveryhome, name='deliveryhome'),
@@ -47,4 +47,11 @@ urlpatterns = [
     path('product_return/<int:cart_id>/', views.product_return, name='product_return'),
     path('return_view', views.return_view, name='return_view'),
     # Add more URL patterns as needed
+    path('shops/', views.shop_list, name='shop_list'),
+    path('approve/<int:shop_id>/', views.approve_shop, name='approve_shop'),
+    path('reject/<int:shop_id>/', views.reject_shop, name='reject_shop'),
+    path('customers/', views.customer_list, name='customer_list'),
+    path('delivery-boys/', views.delivery_boy_list, name='delivery_boy_list'),
+     path('feedbacks/', views.feedback_list, name='feedback_list'),
+     path('complaint_list/', views.complaint_list, name='complaint_list'),
 ]

@@ -190,3 +190,6 @@ class ProductReturnForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProductReturnForm, self).__init__(*args, **kwargs)
         
+class AdminLoginForm(forms.Form):
+    email = forms.EmailField(max_length=32)
+    password = forms.CharField(max_length=32, widget=forms.PasswordInput)
