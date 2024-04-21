@@ -568,6 +568,13 @@ def view_feedback(request):
     
     return render(request, 'view_feedback.html', {'feedback_data': feedback_data})
 
+def delete_feedback(request, feedback_id):
+    feedback = get_object_or_404(Feedback, id=feedback_id)
+    if request.method == 'POST':
+        feedback.delete()
+        return redirect('view_feedback')  # Redirect to appropriate page after deletion
+    # Handle GET requests if necessary
+
 from .models import Complaints
 from .forms import ComplaintForm
 
@@ -615,6 +622,12 @@ def edit_complaint(request, complaint_id):
     else:
         form = ComplaintForm(instance=complaint)
     return render(request, 'enter_complaints.html', {'form': form})
+
+def delete_complaint(request, complaint_id):
+    complaint = get_object_or_404(Complaints, id=complaint_id)
+    if request.method == 'POST':
+        complaint.delete()
+        return redirect('view_complaints')
 
 from .forms import ProductReturnForm
 from .models import ProductReturn

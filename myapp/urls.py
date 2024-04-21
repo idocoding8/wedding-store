@@ -52,6 +52,9 @@ urlpatterns = [
     path('reject/<int:shop_id>/', views.reject_shop, name='reject_shop'),
     path('customers/', views.customer_list, name='customer_list'),
     path('delivery-boys/', views.delivery_boy_list, name='delivery_boy_list'),
-     path('feedbacks/', views.feedback_list, name='feedback_list'),
-     path('complaint_list/', views.complaint_list, name='complaint_list'),
+    path('feedbacks/', views.feedback_list, name='feedback_list'),
+    path('complaint_list/', views.complaint_list, name='complaint_list'),
+    path('feedback/delete/<int:feedback_id>/', views.delete_feedback, name='delete_feedback'),
+    path('delete_complaint/<int:complaint_id>/', views.delete_complaint, name='delete_complaint'),
+
 ]
