@@ -401,25 +401,23 @@ def display_cart(request):
 
     return render(request, 'cart_view.html', {'cart_with_products': cart_with_products})
 
+
+
 def remove_from_cart(request, item_id):
     if request.method == 'POST':
         # Retrieve the cart item to be removed
         cart_item = Cart.objects.get(id=item_id)
         
-        # Retrieve product information
-        product = cart_item.product
-        
-        # Perform any additional checks if needed, e.g., ensure the cart item belongs to the logged-in user
-        
-        # Delete the cart item
-        cart_item.delete()
+        if request.method == 'POST':
+         cart_item.delete()
+         return redirect('display_cart')
         
         # Fetch updated cart items
-        login_id = request.session.get('customer')
-        cart_items = Cart.objects.filter(loginid=login_id, paymentstatus=0)
+        
+        
         
         # Pass product and cart items to the template
-        return render(request, 'search_results.html', {'product': product, 'cart_items': cart_items})
+        return redirect('view_feedback')
 
 def logout(request):
     request.session.clear()

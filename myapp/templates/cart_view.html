@@ -75,7 +75,7 @@
             <p class="card-text">
               {% if item.product.selling == "sell" %}
               <a
-              href="{% url 'payment_setup' product_id=product.id %}"
+              href="{% url 'payment_setup' product_id=item.product.id %}"
               class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
               >Buy</a
             >
