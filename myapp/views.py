@@ -44,7 +44,7 @@ def edit_shop(request):
             # Exclude password from saving
             shop = form.save(commit=False)
             shop.save()
-            return redirect('edit_shop', shop_id=shop_id)  # Redirect to success page
+            return redirect('shophome')  # Redirect to success page
     else:
         form = ShopEditForm(instance=shop)
     return render(request, 'edit_shop.html', {'form': form, 'shop': shop})
@@ -84,12 +84,12 @@ def edit_delivery(request):
     deliveryid = request.session.get('deliveryid')
     delivery = DeliveryBoy.objects.get(id=deliveryid)
     if request.method == 'POST':
-        form = DeliveryEditForm(request.POST, request.FILES, instance=shop)
+        form = DeliveryEditForm(request.POST, request.FILES, instance=delivery)
         if form.is_valid():
             # Exclude password from saving
             delivery = form.save(commit=False)
             delivery.save()
-            return redirect('edit_delivery', shop_id=shop_id)  # Redirect to success page
+            return redirect('edit_delivery')  # Redirect to success page
     else:
         form = DeliveryEditForm(instance=delivery)
     return render(request, 'edit_delivery.html', {'form': form, 'delivery': delivery})
@@ -325,7 +325,7 @@ def edit_customer(request):
             # Exclude password from saving
             customer = form.save(commit=False)
             customer.save()
-            return redirect('edit_shop')  # Redirect to success page
+            return redirect('customerhome')  # Redirect to success page
     else:
         form = CustomerEditForm(instance=customer)
     return render(request, 'edit_customer.html', {'form': form, 'customer': customer})
